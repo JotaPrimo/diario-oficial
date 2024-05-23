@@ -16,6 +16,8 @@ public class OrgaoGovernamental {
 
     private String nome;
 
+    private String cnpj;
+
     @OneToOne(mappedBy = "orgaoGovernamental", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Endereco endereco;
 
@@ -39,7 +41,6 @@ public class OrgaoGovernamental {
         updatedAt = LocalDateTime.now();
     }
 
-
     public Long getId() {
         return id;
     }
@@ -56,6 +57,14 @@ public class OrgaoGovernamental {
         this.nome = nome;
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
@@ -64,12 +73,35 @@ public class OrgaoGovernamental {
         this.endereco = endereco;
     }
 
+    public List<Diario> getDiarios() {
+        return diarios;
+    }
+
+    public void setDiarios(List<Diario> diarios) {
+        this.diarios = diarios;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
