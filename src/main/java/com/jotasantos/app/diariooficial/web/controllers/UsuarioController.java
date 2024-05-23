@@ -45,21 +45,22 @@ public class UsuarioController {
 
     @GetMapping("/{id}/update")
     public String update(Model model) {
-        return "";
+        return "redirect:" .concat(ApiPath.USUARIOS);
     }
 
     @GetMapping("/{id}/delete")
-    public String delete() {
-        return "";
+    public String delete(@PathVariable Long id) {
+        usuarioService.inativarUsuario(id);
+        return "redirect:" .concat(ApiPath.USUARIOS);
     }
 
 
     public String ativarUsuario() {
-        return "";
+        return "redirect:" .concat(ApiPath.USUARIOS);
     }
 
     public String inativarUsuario() {
-        return "";
+        return "redirect:" .concat(ApiPath.USUARIOS);
     }
 
 }
