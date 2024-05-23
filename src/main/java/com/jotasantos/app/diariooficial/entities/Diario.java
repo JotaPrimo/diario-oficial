@@ -3,34 +3,33 @@ package com.jotasantos.app.diariooficial.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "clientes")
-public class Cliente {
+@Table(name = "diarios")
+public class Diario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    private String nome;
+
+    private String path;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Arquivo> arquivos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orgao_governamental_id")
+    private OrgaoGovernamental orgaoGovernamental;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    public Cliente() {
-    }
-
-    public Cliente(Usuario usuario, List<Arquivo> arquivos) {
-        this.usuario = usuario;
-        this.arquivos = arquivos;
+    public Diario() {
     }
 
     @PrePersist
@@ -51,12 +50,20 @@ public class Cliente {
         this.id = id;
     }
 
-    public List<Arquivo> getArquivos() {
-        return arquivos;
+    public String getNome() {
+        return nome;
     }
 
-    public void setArquivos(List<Arquivo> arquivos) {
-        this.arquivos = arquivos;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Usuario getUsuario() {
@@ -83,17 +90,36 @@ public class Cliente {
         this.updatedAt = updatedAt;
     }
 
+    public OrgaoGovernamental getOrgaoGovernamental() {
+        return orgaoGovernamental;
+    }
+
+    public void setOrgaoGovernamental(OrgaoGovernamental orgaoGovernamental) {
+        this.orgaoGovernamental = orgaoGovernamental;
+    }
+
+    @Override
+    public String toString() {
+        return "Diario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", path='" + path + '\'' +
+                ", usuario=" + usuario +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id);
+        Diario diario = (Diario) o;
+        return Objects.equals(id, diario.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id);
     }
-
 }

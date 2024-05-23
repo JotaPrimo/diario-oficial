@@ -20,11 +20,11 @@ public class Usuario {
     @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
     private String nome;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'ATIVO' ")
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'INATIVO' ")
     private EnumStatusUsuario statusUsuario;
 
     @NotBlank(message = "Senha é um campo obrigatório")
