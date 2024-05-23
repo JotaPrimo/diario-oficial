@@ -16,11 +16,11 @@ public class Usuario {
 
     private String nome;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'ATIVO' ")
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'INATIVO' ")
     private EnumStatusUsuario statusUsuario;
 
     private String password;
