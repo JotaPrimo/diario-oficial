@@ -2,6 +2,8 @@ package com.jotasantos.app.diariooficial.entities;
 
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,6 +16,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome é um campo obrigatório")
+    @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
     private String nome;
 
     @OneToOne
@@ -23,8 +27,13 @@ public class Usuario {
     @Column(columnDefinition = "VARCHAR(50) DEFAULT 'ATIVO' ")
     private EnumStatusUsuario statusUsuario;
 
+    @NotBlank(message = "Senha é um campo obrigatório")
+    @Size(min = 5, max = 250, message = "Senha deve ter entre {min} e {max} caracteres")
     private String password;
 
+    @Column(unique = true)
+    @NotBlank(message = "Email é um campo obrigatório")
+    @Size(min = 5, max = 250, message = "Email deve ter entre {min} e {max} caracteres")
     private String email;
 
     private LocalDateTime createdAt;
