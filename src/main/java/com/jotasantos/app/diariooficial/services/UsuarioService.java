@@ -1,10 +1,12 @@
 package com.jotasantos.app.diariooficial.services;
 
 import com.jotasantos.app.diariooficial.entities.Usuario;
+import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.repositories.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,25 @@ public class UsuarioService {
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(String.format("Usuário {%s} não encontrado", id))));
         return usuario;
+    }
+
+    public void inativarUsuario(Long id) {
+        Usuario usuario = findOrFail(id);
+        usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
+
+        usuarioRepository.save(usuario);
+    }
+
+    public void ativarUsuario(Long id) {
+        Usuario usuario = findOrFail(id);
+        usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
+
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void save(Usuario usuario) {
+        usuarioRepository.save(usuario);
     }
 
 }

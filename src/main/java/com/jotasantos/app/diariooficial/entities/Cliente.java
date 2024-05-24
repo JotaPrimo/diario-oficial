@@ -14,12 +14,16 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Arquivo> arquivos;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orgao_governamental_id")
+    private OrgaoGovernamental orgaoGovernamental;
 
     private LocalDateTime createdAt;
 
