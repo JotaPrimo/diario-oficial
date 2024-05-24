@@ -7,6 +7,7 @@ import com.jotasantos.app.diariooficial.repositories.IUsuarioRepository;
 import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,11 +41,13 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
     }
 
     @Override
+    @Transactional
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
     @Override
+    @Transactional
     public Usuario update(Usuario usuario, Long id) throws EntityNotFoundException {
         if (this.existsById(id)) {
             usuario.setId(id);
@@ -54,6 +57,7 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
     }
 
     @Override
+    @Transactional
     public void delete(Usuario usuario) throws EntityNotFoundException {
         if (usuarioRepository.existsById(usuario.getId())) {
             usuarioRepository.delete(usuario);
@@ -67,6 +71,7 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
         return usuarioRepository.existsById(id);
     }
 
+    @Transactional
     public void inativarUsuario(Long id) {
         Usuario usuario = findOrFail(id);
         usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
@@ -74,6 +79,7 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
         usuarioRepository.save(usuario);
     }
 
+    @Transactional
     public void ativarUsuario(Long id) {
         Usuario usuario = findOrFail(id);
         usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);

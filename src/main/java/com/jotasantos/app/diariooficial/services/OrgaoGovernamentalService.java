@@ -5,6 +5,7 @@ import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,16 +32,19 @@ public class OrgaoGovernamentalService implements IServiceBase<OrgaoGovernamenta
     }
 
     @Override
+    @Transactional
     public OrgaoGovernamental save(OrgaoGovernamental entity) {
         return null;
     }
 
     @Override
+    @Transactional
     public OrgaoGovernamental update(OrgaoGovernamental entity, Long id) throws EntityNotFoundException {
         return null;
     }
 
     @Override
+    @Transactional
     public void delete(OrgaoGovernamental entity) throws EntityNotFoundException {
 
     }

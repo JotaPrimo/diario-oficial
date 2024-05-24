@@ -23,7 +23,7 @@ public class UsuarioController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuarios", usuarioService.findAll());
+        model.addAttribute("usuarios", usuarioService.findAllSortedById());
         return "private/usuarios/index";
     }
 
