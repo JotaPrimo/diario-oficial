@@ -27,6 +27,9 @@ public class OrgaoGovernamental {
     @OneToMany(mappedBy = "orgaoGovernamental", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Arquivo> arquivos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "orgaoGovernamental", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cliente> clientes = new ArrayList<>();
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

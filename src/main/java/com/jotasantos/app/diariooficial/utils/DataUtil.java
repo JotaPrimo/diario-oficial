@@ -9,4 +9,8 @@ public class DataUtil {
         return now.format(DateFormats.DMYHMS);
     }
 
+    public static String retornaDataFormatadaDMY(LocalDateTime createdAt) {
+        return createdAt.format(DateFormats.DMY);
+    }
+
 }

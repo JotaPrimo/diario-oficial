@@ -1,6 +1,7 @@
 package com.jotasantos.app.diariooficial.entities;
 
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
+import com.jotasantos.app.diariooficial.utils.DataUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,7 +21,7 @@ public class Usuario {
     @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
     private String nome;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
@@ -156,4 +157,9 @@ public class Usuario {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public String getCreatedAtFormatado() {
+        return DataUtil.retornaDataFormatadaDMY(this.getCreatedAt());
+    }
+
 }
