@@ -4,7 +4,7 @@ import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.UsuarioService;
-import com.jotasantos.app.diariooficial.web.dtos.UsuarioCreateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class UsuarioController {
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("usuarioCreateDTO", new UsuarioCreateDTO("", "", ""));
+        model.addAttribute("usuarioCreateDTO", UsuarioCreateDTO.getNewInstance());
         return "private/usuarios/create";
     }
 

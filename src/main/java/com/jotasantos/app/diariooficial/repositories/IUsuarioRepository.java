@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
-
-    @Query("SELECT u FROM Usuario u ORDER BY u.id")
-    List<Usuario> findAllOrderById();
+public interface IUsuarioRepository extends IRepositoryBase<Usuario, Long> {
 
 }
