@@ -1,7 +1,6 @@
-package com.jotasantos.app.diariooficial.repositories;
+package com.jotasantos.app.diariooficial.database.repositories;
 
 import com.jotasantos.app.diariooficial.entities.Diario;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IDiarioRepository extends IRepositoryBase<Diario, Long> {
 }

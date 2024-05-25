@@ -7,21 +7,14 @@
         <div class="col-xl-12">
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
-                    <div class="card-title">Buscar Usuários</div>
+                    <div class="card-title">Buscar clientes</div>
                 </div>
                 <div class="card-body">
-                    <form id="form_usuario" action="/usuarios/store" method="post" th:object="${usuario}" class="row g-3 mt-0">
-
-                        <div class="col-md-6 col-sm-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" id="email" name="email" th:field="*{email}" required minlength="14"
-                                   maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
-                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
-                        </div>
+                    <form id="form_usuario" action="/clientes/store" method="post" th:object="${cliente_dto}" class="row g-3 mt-0">
 
                         <div class="col-12">
                             <button type="submit" class="btn btn-sm btn-secondary">Buscar</button>
-                            <a th:href="@{/diario-oficial/usuarios/create}" class="btn btn-sm btn-primary">Novo</a>
+                            <a th:href="@{/diario-oficial/clientes/create}" class="btn btn-sm btn-primary">Novo</a>
                         </div>
                     </form>
                 </div>
@@ -39,6 +32,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Cadastrado Em</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Role</th>
@@ -46,20 +40,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="u : ${usuarios}">
-                                <th scope="row" th:text="${u.id}"></th>
-                                <th scope="row" th:text="${u.email}"></th>
-                                <th scope="row" th:text="${u.getCreatedAtFormatado()}"></th>
+                            <tr th:each="cliente : ${clientes}">
+                                <th scope="row" th:text="${cliente.id}"></th>
+                                <th scope="row" th:text="${cliente.nome}"></th>
+                                <th scope="row" th:text="${cliente.usuario.email}"></th>
+                                <th scope="row" th:text="${cliente.getCreatedAtFormatado()}"></th>
                                 <th scope="row">
-                                    <span th:class="${u.ativo ? 'badge bg-success' : 'badge bg-danger' }"
-                                          th:text="${u.ativo ? 'ATIVO' : 'INATIVO'}">
+                                    <span th:class="${cliente.usuario.ativo ? 'badge bg-success' : 'badge bg-danger' }"
+                                          th:text="${cliente.usuario.ativo ? 'ATIVO' : 'INATIVO'}">
                                     </span>
                                 </th>
-                                <th scope="row" th:text="${u.getRole().getName()}"></th>
+                                <th scope="row" th:text="${cliente.usuario.getRole().getName()}"></th>
                                 <th scope="row">
-                                    <a th:href="@{/diario-oficial/usuarios/{id}/show(id=${u.id})}"
+                                    <a th:href="@{/diario-oficial/usuarios/{id}/show(id=${cliente.id})}"
                                        class="btn btn-info btn-sm btn-wave waves-effect waves-light">Show</a>
-                                    <a th:href="@{/diario-oficial/usuarios/{id}/edit(id=${u.id})}"
+                                    <a th:href="@{/diario-oficial/usuarios/{id}/edit(id=${cliente.id})}"
                                        class="btn btn-warning btn-sm btn-wave waves-effect waves-light">Editar</a>
 
                                     <button class="btn btn-danger btn-sm btn-wave waves-effect waves-light">

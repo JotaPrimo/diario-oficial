@@ -1,14 +1,16 @@
-package com.jotasantos.app.diariooficial.services;
+package com.jotasantos.app.diariooficial.services.implementation;
 
 import com.jotasantos.app.diariooficial.entities.Endereco;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.services.interfaces.IEnderecoService;
 import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ArquivoService implements IServiceBase<Endereco, Long> {
+public class EnderecoServiceImpl implements IEnderecoService {
+
     @Override
     public List<Endereco> findAll() {
         return null;

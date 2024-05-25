@@ -47,6 +47,8 @@
 
     <!-- COLOR SKIN CSS -->
     <link id="theme" rel="stylesheet" type="text/css" media="all" th:href="@{/colors/color1.css}" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body class="app sidebar-mini ltr light-mode">
@@ -183,6 +185,12 @@
 <script th:src="@{/js/vanilla-masker-1.1.1.min.js}"></script>
 
 <script th:src="@{/js/mascaras.js}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
 
 </body>
 </html>
