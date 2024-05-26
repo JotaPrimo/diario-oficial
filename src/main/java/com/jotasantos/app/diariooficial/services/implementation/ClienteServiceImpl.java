@@ -1,19 +1,27 @@
-package com.jotasantos.app.diariooficial.services;
+package com.jotasantos.app.diariooficial.services.implementation;
 
 import com.jotasantos.app.diariooficial.entities.Cliente;
+import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import com.jotasantos.app.diariooficial.repositories.IClienteRepository;
-import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
+import com.jotasantos.app.diariooficial.database.repositories.IClienteRepository;
+import com.jotasantos.app.diariooficial.services.interfaces.IClienteService;
+import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class ClienteService implements IServiceBase<Cliente, Long> {
+public class ClienteServiceImpl implements IClienteService {
 
     @Autowired
     private IClienteRepository clienteRepository;
+
+    @Qualifier("usuarioServiceImpl")
+    @Autowired
+    private IUsuarioService usuarioService;
 
     @Override
     public List<Cliente> findAll() {
@@ -67,4 +75,16 @@ public class ClienteService implements IServiceBase<Cliente, Long> {
         return clienteRepository.existsById(id);
     }
 
+    @Transactional
+    public Cliente createClienteUser(Cliente cliente) {
+        try {
+            Usuario usuariosaved = usuarioService.save(cliente.getUsuario());
+            cliente.setUsuario(usuariosaved);
+            clienteRepository.save(cliente);
+            return cliente;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

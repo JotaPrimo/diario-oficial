@@ -1,12 +1,17 @@
 package com.jotasantos.app.diariooficial.web.controllers;
 
 import com.jotasantos.app.diariooficial.config.ApiPath;
+import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import com.jotasantos.app.diariooficial.services.UsuarioService;
+import com.jotasantos.app.diariooficial.services.implementation.RoleServiceImpl;
+import com.jotasantos.app.diariooficial.services.implementation.UsuarioServiceImpl;
+import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
+import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,8 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(ApiPath.USUARIOS)
 public class UsuarioController {
 
+    @Qualifier("usuarioServiceImpl")
     @Autowired
-    private UsuarioService usuarioService;
+    private IUsuarioService usuarioService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @GetMapping
     public String index(Model model) {
@@ -30,6 +39,7 @@ public class UsuarioController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("usuarioCreateDTO", UsuarioCreateDTO.getNewInstance());
+        model.addAttribute("roles", roleService.findAll());
         return "private/usuarios/create";
     }
 
@@ -42,8 +52,9 @@ public class UsuarioController {
             return "redirect:/diario-oficial/usuarios/create";
         }
 
+        Role role1 = roleService.findById(Long.parseLong(usuarioCreateDTO.role()));
+        usuarioService.save(UsuarioCreateDTO.toEntity(usuarioCreateDTO, role1));
         redirectAttributes.addFlashAttribute("msgSuccess", "Usuário criado com sucesso ");
-        usuarioService.save(UsuarioCreateDTO.toEntity(usuarioCreateDTO));
 
         return "redirect:/diario-oficial/usuarios";
     }
@@ -70,11 +81,12 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/{id}/update")
+    @PutMapping("/{id}/update")
     public String update(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             model.addAttribute("usuario", usuarioService.findOrFail(id));
-            return "usuarios/edit";
+            usuarioService.save(usuarioService.findOrFail(id));
+            return "usuarios/edit/" + id;
         }catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("msgDanger", e.getMessage());
             return "redirect:/" . concat(ApiPath.USUARIOS);

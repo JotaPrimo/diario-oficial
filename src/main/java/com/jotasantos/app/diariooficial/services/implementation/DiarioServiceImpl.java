@@ -1,14 +1,16 @@
-package com.jotasantos.app.diariooficial.services;
+package com.jotasantos.app.diariooficial.services.implementation;
 
 import com.jotasantos.app.diariooficial.entities.Diario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.services.interfaces.IDiarioService;
 import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DiarioService implements IServiceBase<Diario, Long> {
+public class DiarioServiceImpl implements IDiarioService {
+
     @Override
     public List<Diario> findAll() {
         return null;

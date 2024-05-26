@@ -17,10 +17,6 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nome é um campo obrigatório")
-    @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
-    private String nome;
-
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cliente cliente;
 
@@ -37,6 +33,10 @@ public class Usuario {
     @Size(min = 5, max = 250, message = "Email deve ter entre {min} e {max} caracteres")
     private String email;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -45,7 +45,6 @@ public class Usuario {
     }
 
     public Usuario(String nome, String password, String email) {
-        this.nome = nome;
         this.password = password;
         this.email = email;
     }
@@ -66,14 +65,6 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getPassword() {
@@ -116,13 +107,20 @@ public class Usuario {
         this.statusUsuario = statusUsuario;
     }
 
-
     public Cliente getCliente() {
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean isAtivo() {
@@ -137,7 +135,6 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +

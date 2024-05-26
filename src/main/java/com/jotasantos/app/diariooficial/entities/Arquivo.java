@@ -23,7 +23,7 @@ public class Arquivo {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(50) DEFAULT 'NAO' ")
-    private EnumSimNao publicado;
+    private EnumSimNao baixado;
 
     private String path;
 
@@ -50,12 +50,12 @@ public class Arquivo {
         setUpdatedAt(LocalDateTime.now());
     }
 
-    public boolean isPublicado() {
-        return EnumSimNao.SIM.equals(this.getPublicado());
+    public boolean isBaixado() {
+        return EnumSimNao.SIM.equals(this.getBaixado());
     }
 
-    public boolean isNaoPublicado() {
-        return EnumSimNao.NAO.equals(this.getPublicado());
+    public boolean isNaoBaixado() {
+        return EnumSimNao.NAO.equals(this.getBaixado());
     }
 
     public Long getId() {
@@ -66,12 +66,12 @@ public class Arquivo {
         this.id = id;
     }
 
-    public EnumSimNao getPublicado() {
-        return publicado;
+    public EnumSimNao getBaixado() {
+        return baixado;
     }
 
-    public void setPublicado(EnumSimNao publicado) {
-        this.publicado = publicado;
+    public void setBaixado(EnumSimNao baixado) {
+        this.baixado = baixado;
     }
 
     public String getPath() {
