@@ -4,8 +4,6 @@ import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import com.jotasantos.app.diariooficial.services.implementation.RoleServiceImpl;
-import com.jotasantos.app.diariooficial.services.implementation.UsuarioServiceImpl;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
@@ -26,13 +24,14 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;
 
+    @Qualifier("roleServiceImpl")
     @Autowired
     private IRoleService roleService;
 
     @GetMapping
     public String index(Model model) {
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuarios", usuarioService.findAll());
+        model.addAttribute("usuarios", usuarioService.findAllSortedById());
         return "private/usuarios/index";
     }
 
@@ -100,19 +99,31 @@ public class UsuarioController {
             return "usuarios/edit";
         }catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("msgDanger", e.getMessage());
-            return "redirect:/" . concat(ApiPath.USUARIOS);
+             return "redirect:/diario-oficial/usuarios";
         }
     }
 
 
-    @GetMapping("/{id}/ativar-usuario")
-    public String ativarUsuario() {
-        return "redirect:" .concat(ApiPath.USUARIOS);
+    @PostMapping("/{id}/ativar")
+    public String ativarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.ativarUsuario(id);
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }catch (Exception exception) {
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }
+        return "redirect:/diario-oficial/usuarios";
     }
 
-    @GetMapping("/{id}/inativar-usuario")
-    public String inativarUsuario() {
-        return "redirect:" .concat(ApiPath.USUARIOS);
+    @PostMapping("/{id}/inativar")
+    public String inativarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.inativarUsuario(id);
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }catch (Exception exception) {
+            redirectAttributes.addFlashAttribute("msgDanger", "Ocorreu um erro");
+        }
+         return "redirect:/diario-oficial/usuarios";
     }
 
 }
