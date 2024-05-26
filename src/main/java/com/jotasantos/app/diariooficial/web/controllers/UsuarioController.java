@@ -81,11 +81,12 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/{id}/update")
+    @PutMapping("/{id}/update")
     public String update(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             model.addAttribute("usuario", usuarioService.findOrFail(id));
-            return "usuarios/edit";
+            usuarioService.save(usuarioService.findOrFail(id));
+            return "usuarios/edit/" + id;
         }catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("msgDanger", e.getMessage());
             return "redirect:/" . concat(ApiPath.USUARIOS);

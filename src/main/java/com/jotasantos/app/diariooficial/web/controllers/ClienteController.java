@@ -4,6 +4,7 @@ import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
+import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.services.interfaces.IClienteService;
 import com.jotasantos.app.diariooficial.services.interfaces.IOrgaoGovernamentalService;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
@@ -41,6 +42,8 @@ public class ClienteController {
 
     @GetMapping
     public String index(Model model) {
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("status", EnumStatusUsuario.getAllEnumStatus());
         model.addAttribute("clientes", clienteService.findAllSortedById());
         return "private/clientes/index";
     }

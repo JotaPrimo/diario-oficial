@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}">
+<body>
+<!-- Conteúdo específico da página de usuários aqui -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">Buscar Orgãos Governamentais</div>
+                </div>
+                <div class="card-body">
+                    <form id="form_usuario" action="/usuarios/store" method="post" th:object="${orgaoSearchDTO}" class="row g-3 mt-0">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" id="email" name="email" th:field="*{nome}" required minlength="14"
+                                   maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
+                            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="invalid-feedback"></div>
+                        </div>
+
+                         <div class="col-md-6 col-sm-12">
+                        <label for="email" class="form-label">CNPJ</label>
+                        <input type="text" id="cnpj" name="email" th:field="*{cnpj}" required minlength="14"
+                               maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
+                        <div th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}" class="invalid-feedback"></div>
+                    </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-sm btn-secondary">Buscar</button>
+                            <a th:href="@{/diario-oficial/orgaos-governamentais/create}" class="btn btn-sm btn-primary">Novo</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">Listagem dos orgãos governamentais</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table text-nowrap table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Cadastrado Em</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="orgao : ${orgaos}">
+                                <th scope="row" th:text="${orgao.id}"></th>
+                                <th scope="row" th:text="${orgao.nome}"></th>
+                                <th scope="row" th:text="${orgao.getCreatedAtFormatado()}"></th>
+                                <th scope="row">
+                                   <span th:class="${orgao.isDeletado() ? 'badge bg-success' : 'badge bg-danger' }"
+                                         th:text="${orgao.isDeletado() ? 'ATIVO' : 'INATIVO'}">
+                                    </span>
+                                </th>
+                                <th scope="row">
+                                    <a th:href="@{/diario-oficial/orgaos-governamentais/{id}/show(id=${orgao.id})}"
+                                       class="btn btn-info btn-sm btn-wave waves-effect waves-light">Show</a>
+                                    <a th:href="@{/diario-oficial/orgaos-governamentais/{id}/edit(id=${orgao.id})}"
+                                       class="btn btn-warning btn-sm btn-wave waves-effect waves-light">Editar</a>
+
+                                    <button class="btn btn-danger btn-sm btn-wave waves-effect waves-light">
+                                        Deletar
+                                    </button>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

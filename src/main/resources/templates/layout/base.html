@@ -49,6 +49,8 @@
     <link id="theme" rel="stylesheet" type="text/css" media="all" th:href="@{/colors/color1.css}" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link id="form-step" rel="stylesheet" type="text/css" media="all" th:href="@{/form-step/css.css}" />
 </head>
 
 <body class="app sidebar-mini ltr light-mode">
@@ -60,7 +62,6 @@
 <!-- /GLOBAL-LOADER -->
 
 <div class="page">
-
     <div class="page-main">
 
         <!-- app-Header -->
@@ -100,7 +101,6 @@
     <div th:replace="~{layout/components/country-selector :: country-selector}"></div>
 
     <div th:replace="~{layout/components/footer :: footer}"></div>
-
 </div>
 
 
@@ -185,6 +185,10 @@
 <script th:src="@{/js/vanilla-masker-1.1.1.min.js}"></script>
 
 <script th:src="@{/js/mascaras.js}"></script>
+
+<script th:src="@{/js/via-cep.js}"></script>
+
+<script th:src="@{/form-step/js.js}"></script>
 
 <script>
     $(document).ready(function() {

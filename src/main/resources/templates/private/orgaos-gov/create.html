@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}">
+<body>
+
+<!-- Conteúdo específico da página de usuários aqui -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xl-12">
+            <form id="form_user" th:action="@{/diario-oficial/orgaos-governamentais/store}" th:object="${orgaoCreateDTO}" method="post"
+                   class="row g-3 mt-0">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Novo Orgão Governamental</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="cnpj" class="form-label">CNPJ</label>
+                                <input type="text" id="cnpj" name="cnpj" th:field="*{cnpj}" required minlength="14"
+                                       maxlength="14" class="form-control" placeholder="CNPJ" aria-label="CPF"/>
+                                <div th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
+                                <label for="tipo_orgao_governamental" class="form-label">Tipo orgão governamental</label>
+                                <select id="tipo_orgao_governamental" required class="form-select" name="tipo_orgao_governamental">
+                                    <option value="" selected disabled>Selecione..</option>
+                                    <option value="Prefeitura Municipal de ">Prefeitura</option>
+                                    <option value="Governadoria Estadual de ">Governadoria</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <label for="cep">CEP</label>
+                                <input name="cep" placeholder="CEP" required class="form-control" type="text" id="cep" value=""
+                                       size="10" maxlength="9" onblur="pesquisacep(this.value);" />
+                            </div>
+                            <div class="col">
+                                <label for="logradouro">Logradouro</label>
+                                <input name="logradouro" id="logradouro" readonly placeholder="Logradouro" class="form-control" required type="text" size="60" />
+                            </div>
+                            <div class="col">
+                                <label for="bairro">Bairro</label>
+                                <input name="bairro" type="text" required readonly th:field="*{bairro}" placeholder="Bairro" class="form-control" id="bairro" size="60" />
+                            </div>
+                            <div class="col">
+                                <label for="cidade">Cidade</label>
+                                <input name="cidade" type="text" required readonly th:field="*{cidade}" placeholder="Cidade" class="form-control" id="cidade" size="40" />
+                            </div>
+                            <div class="col">
+                                <label for="uf">Estado</label>
+                                <input name="uf" type="text" required readonly th:field="*{estado}" placeholder="Estado" class="form-control" id="uf" size="2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-sm btn-secondary">Salvar</button>
+                    <a th:href="@{/usuarios}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const tipo_orgao = document.getElementById('tipo_orgao_governamental');
+        const nome = document.getElementById('nome');
+        const cidade = document.getElementById('cidade');
+
+        tipo_orgao.addEventListener('change', (event) => {
+            nome.value = "";
+            const tipo_orgao_selecionado = event.target.value;
+
+            nome.value = nome.value + tipo_orgao_selecionado;
+        });
+
+        cidade.addEventListener('input', (event) => {
+            console.log(nome.value + cidade.value)
+            nome.value = nome.value + cidade.value;
+        });
+    </script>
+</div>
+
+</body>
+</html>
