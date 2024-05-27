@@ -1,5 +1,8 @@
 package com.jotasantos.app.diariooficial.web.dtos.cliente;
 
+import com.jotasantos.app.diariooficial.entities.Cliente;
+import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
+import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import jakarta.validation.constraints.NotBlank;
@@ -16,20 +19,29 @@ public record ClienteCreateDTO(
         String email,
 
         @NotBlank(message = "Password é um campo obrigatório")
-        @Size(min = 10, max = 10, message = "Password deve ter entre {min} e {max} caracteres")
-        String password
+        @Size(min = 8, max = 10, message = "Password deve ter entre {min} e {max} caracteres")
+        String password,
+
+        @NotBlank(message = "Role é um campo obrigatório")
+        String role,
+
+        @NotBlank(message = "Role é um campo obrigatório")
+        String id_orgao_gov
 ) {
-    public static Usuario toEntity(ClienteCreateDTO usuarioCreateDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioCreateDTO.nome);
-        usuario.setEmail(usuarioCreateDTO.email);
-        usuario.setPassword(usuarioCreateDTO.password);
-        usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
-        return usuario;
+    public static Cliente toEntity(ClienteCreateDTO clienteCreateDTO, Role role, OrgaoGovernamental orgaoGovernamental) {
+        Usuario usuario1 = new Usuario();
+        usuario1.setEmail(clienteCreateDTO.email);
+        usuario1.setPassword(clienteCreateDTO.password);
+        usuario1.setRole(role);
+
+        Cliente cliente = new Cliente();
+        cliente.setUsuario(usuario1);
+        cliente.setNome(clienteCreateDTO.nome());
+        return cliente;
     }
 
     public static ClienteCreateDTO getNewInstance() {
-        return new ClienteCreateDTO("", "", "");
+        return new ClienteCreateDTO("", "", "", "", "");
     }
 
 }

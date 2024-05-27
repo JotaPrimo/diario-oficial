@@ -11,13 +11,7 @@
                 </div>
                 <div class="card-body">
                     <form id="form_usuario" action="/usuarios/store" method="post" th:object="${usuario}" class="row g-3 mt-0">
-                        <div class="col-md-6 col-sm-12">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" required minlength="5" maxlength="255" id="name" th:field="*{nome}"
-                                   name="name" class="form-control" placeholder="Nome" aria-label="Nome"/>
-                            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
-                                 class="invalid-feedback"></div>
-                        </div>
+
                         <div class="col-md-6 col-sm-12">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" id="email" name="email" th:field="*{email}" required minlength="14"
@@ -45,16 +39,15 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Email</th>
                                 <th scope="col">Cadastrado Em</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Role</th>
                                 <th scope="col">Ações</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="u : ${usuarios}">
                                 <th scope="row" th:text="${u.id}"></th>
-                                <th scope="row" th:text="${u.nome}"></th>
                                 <th scope="row" th:text="${u.email}"></th>
                                 <th scope="row" th:text="${u.getCreatedAtFormatado()}"></th>
                                 <th scope="row">
@@ -62,17 +55,74 @@
                                           th:text="${u.ativo ? 'ATIVO' : 'INATIVO'}">
                                     </span>
                                 </th>
+                                <th scope="row" th:text="${u.getRole().getName()}"></th>
                                 <th scope="row">
                                     <a th:href="@{/diario-oficial/usuarios/{id}/show(id=${u.id})}"
                                        class="btn btn-info btn-sm btn-wave waves-effect waves-light">Show</a>
+
                                     <a th:href="@{/diario-oficial/usuarios/{id}/edit(id=${u.id})}"
                                        class="btn btn-warning btn-sm btn-wave waves-effect waves-light">Editar</a>
 
-                                    <button class="btn btn-danger btn-sm btn-wave waves-effect waves-light">
-                                        Deletar
+                                    <button th:if="${u.isAtivo()}" title="Inativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalInativar' + ${u.id}"
+                                            class="btn btn-danger btn-sm btn-wave waves-effect waves-light">
+                                        <icon class="fe fe-trash"></icon>
                                     </button>
 
+                                    <button th:if="${u.isInativo()}" title="Ativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalAtivar' + ${u.id}"
+                                            class="btn btn-success btn-sm btn-wave waves-effect waves-light">
+                                        <icon class="fe fe-trash"></icon>
+                                    </button>
                                 </th>
+
+                                <!--  MODAL INATIVAR USUARIO-->
+                                <div th:if="${u.isAtivo()}" class="modal fade" th:id="'modalInativar' + ${u.id}" tabindex="-1"
+                                     aria-labelledby="'modalInativarLabel' + ${u.id}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" th:id="'modalInativarLabel' + ${u.id}">Modal title</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Inativar o usuario
+                                                <p th:text="${u.email}"></p> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form id="form_user" th:action="@{/diario-oficial/usuarios/{id}/inativar(id=${u.id})}" method="post" class="row g-3 mt-0">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Inativar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  MODAL INATIVAR USUARIO-->
+
+                                <!--  MODAL ATIVAR USUARIO-->
+                                <div th:if="${u.isInativo()}" class="modal fade" th:id="'modalAtivar' + ${u.id}" tabindex="-1"
+                                     aria-labelledby="'modalAtivarLabel' + ${u.id}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" th:id="'modalAtivarLabel' + ${u.id}">Modal title</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Ativar o usuario
+                                                <p th:text="${u.email}"></p> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form id="form_user_status" th:action="@{/diario-oficial/usuarios/{id}/ativar(id=${u.id})}" method="POST" class="row g-3 mt-0">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Ativar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  MODAL ATIVAR USUARIO-->
                             </tr>
                             </tbody>
                         </table>

@@ -1,5 +1,7 @@
 package com.jotasantos.app.diariooficial.entities;
 
+import com.jotasantos.app.diariooficial.enums.EnumSimNao;
+import com.jotasantos.app.diariooficial.utils.DataUtil;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +32,10 @@ public class OrgaoGovernamental {
     @OneToMany(mappedBy = "orgaoGovernamental", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cliente> clientes = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'NAO' ")
+    private EnumSimNao deletado;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -37,6 +43,7 @@ public class OrgaoGovernamental {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        deletado = EnumSimNao.NAO;
     }
 
     @PreUpdate
@@ -107,4 +114,29 @@ public class OrgaoGovernamental {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public EnumSimNao getDeletado() {
+        return deletado;
+    }
+
+    public void setDeletado(EnumSimNao deletado) {
+        this.deletado = deletado;
+    }
+
+    public String getCreatedAtFormatado() {
+        return DataUtil.retornaDataFormatadaDMY(this.getCreatedAt());
+    }
+
+    public boolean isDeletado() {
+        return EnumSimNao.NAO.name().equals(this.deletado.name());
+    }
+
 }

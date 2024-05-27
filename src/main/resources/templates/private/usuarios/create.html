@@ -13,21 +13,25 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" required minlength="5" maxlength="255" id="nome" th:field="*{nome}"
-                                       name="nome" class="form-control" placeholder="Nome" aria-label="Nome"/>
-                                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
-                                     class="invalid-feedback"></div>
-                            </div>
-                            <div class="col">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" id="email" name="email" th:field="*{email}" required minlength="10"
                                        maxlength="255" class="form-control" placeholder="Email" aria-label="CPF"/>
                                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
                             </div>
                             <div class="col">
+                                <label for="role" class="form-label">Nível Acesso</label>
+                                <select id="role" name="role" class="form-control form-select select2" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.id}"
+                                            th:text="${role.name}">
+                                    </option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="text" required minlength="10" maxlength="10" class="form-control" th:field="*{password}" name="password"
+                                <input type="text" required minlength="8" maxlength="10" class="form-control" th:field="*{password}" name="password"
                                        id="password" autocomplete="off" placeholder="Senha"/>
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                                      class="invalid-feedback"></div>

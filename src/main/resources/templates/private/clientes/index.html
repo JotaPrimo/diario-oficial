@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}">
+<body>
+<!-- Conteúdo específico da página de usuários aqui -->
+<div layout:fragment="content">
+    <div class="col-xl-12">
+        <form id="form_usuario" action="/clientes/store" method="post">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">Buscar clientes</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" id="email" name="email" required minlength="10"
+                                   maxlength="255" class="form-control" placeholder="Email" aria-label="CPF"/>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col">
+                            <label for="role" class="form-label">Nível Acesso</label>
+                            <select id="role" name="role" class="form-control form-select select2" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option th:each="role : ${roles}"
+                                        th:value="${role.id}"
+                                        th:text="${role.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-control form-select select2" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option th:each="s : ${status}"
+                                        th:value="${s}"
+                                        th:text="${s}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-sm btn-secondary">Buscar</button>
+                <a th:href="@{/diario-oficial/clientes/create}" class="btn btn-sm btn-primary">Novo</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header justify-content-between">
+                <div class="card-title">Listagem dos usuários</div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Cadastrado Em</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cliente : ${clientes}">
+                            <th scope="row" th:text="${cliente.id}" />
+                            <th scope="row" th:text="${cliente.nome}" />
+                            <th scope="row" th:text="${cliente.usuario.email}" />
+                            <th scope="row" th:text="${cliente.usuario.getRole().getName()}" />
+                            <th scope="row">
+                                    <span th:class="${cliente.usuario.ativo ? 'badge bg-success' : 'badge bg-danger' }"
+                                          th:text="${cliente.usuario.ativo ? 'ATIVO' : 'INATIVO'}">
+                                    </span>
+                            </th>
+                            <th scope="row" th:text="${cliente.getCreatedAtFormatado()}" />
+                            <th scope="row">
+                                <a th:href="@{/diario-oficial/clientes/{id}/show(id=${cliente.id})}" title="Ver cliente"
+                                   class="btn btn-info btn-sm btn-wave waves-effect waves-light">
+                                    <i class="fe fe-eye"></i>
+                                </a>
+                                <a th:href="@{/diario-oficial/clientes/{id}/edit(id=${cliente.id})}" title="Editar cliente"
+                                   class="btn btn-warning btn-sm btn-wave waves-effect waves-light">
+                                    <i class="fe fe-edit-2"></i>
+                                </a>
+
+                                <button class="btn btn-danger btn-sm btn-wave waves-effect waves-light" title="Deletar cliente">
+                                    <i class="fe fe-trash"></i>
+                                </button>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

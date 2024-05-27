@@ -21,7 +21,6 @@ public record UsuarioUpdateDTO(
 ) {
     public static Usuario toEntity(UsuarioUpdateDTO usuarioCreateDTO) {
         Usuario usuario = new Usuario();
-        usuario.setNome(usuarioCreateDTO.nome);
         usuario.setEmail(usuarioCreateDTO.email);
         usuario.setPassword(usuarioCreateDTO.password);
         usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);

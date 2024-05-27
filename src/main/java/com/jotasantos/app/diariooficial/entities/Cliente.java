@@ -1,6 +1,9 @@
 package com.jotasantos.app.diariooficial.entities;
 
+import com.jotasantos.app.diariooficial.utils.DataUtil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +20,10 @@ public class Cliente {
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
+
+    @NotBlank(message = "Nome é um campo obrigatório")
+    @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
+    private String nome;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Arquivo> arquivos;
@@ -85,6 +92,26 @@ public class Cliente {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedAtFormatado() {
+        return DataUtil.retornaDataFormatadaDMY(getCreatedAt());
+    }
+
+    public @NotBlank(message = "Nome é um campo obrigatório") @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres") String getNome() {
+        return nome;
+    }
+
+    public void setNome(@NotBlank(message = "Nome é um campo obrigatório") @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres") String nome) {
+        this.nome = nome;
+    }
+
+    public OrgaoGovernamental getOrgaoGovernamental() {
+        return orgaoGovernamental;
+    }
+
+    public void setOrgaoGovernamental(OrgaoGovernamental orgaoGovernamental) {
+        this.orgaoGovernamental = orgaoGovernamental;
     }
 
     @Override

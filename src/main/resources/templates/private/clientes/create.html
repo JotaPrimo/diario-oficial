@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}">
+<body>
+<!-- Conteúdo específico da página de usuários aqui -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xl-12">
+            <form id="form_user" th:action="@{/diario-oficial/clientes/store}" method="post" th:object="${cliente_create_dto}" class="row g-3 mt-0">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Novo cliente</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" required minlength="5" maxlength="255" id="nome" th:field="*{nome}"
+                                       name="nome" class="form-control" placeholder="Nome" aria-label="Nome"/>
+                                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+                                     class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" id="email" name="email" th:field="*{email}" required minlength="10"
+                                       maxlength="255" class="form-control" placeholder="Email" aria-label="CPF"/>
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
+                                <label for="id_orgao_gov" class="form-label">Org. Gov</label>
+                                <select id="id_orgao_gov"  name="id_orgao_gov" class="form-control form-select select2" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option th:each="orgao_gov : ${orgaos_gov}"
+                                            th:value="${orgao_gov.id}"
+                                            th:text="${orgao_gov.nome}">
+                                    </option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('id_orgao_gov')}" th:errors="*{id_orgao_gov}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="role" class="form-label">Nível Acesso</label>
+                                <select id="role" name="role" class="form-control form-select select2" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.id}"
+                                            th:text="${role.name}">
+                                    </option>
+                                </select>
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="text" required minlength="8" maxlength="10" class="form-control" th:field="*{password}" name="password"
+                                       id="password" autocomplete="off" placeholder="Senha"/>
+                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                     class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-sm btn-secondary">Salvar</button>
+                    <a th:href="@{/usuarios}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

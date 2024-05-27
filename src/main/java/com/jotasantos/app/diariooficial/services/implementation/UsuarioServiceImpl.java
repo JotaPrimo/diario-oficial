@@ -1,22 +1,33 @@
-package com.jotasantos.app.diariooficial.services;
+package com.jotasantos.app.diariooficial.services.implementation;
 
+import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import com.jotasantos.app.diariooficial.repositories.IUsuarioRepository;
-import com.jotasantos.app.diariooficial.services.interfaces.IServiceBase;
+import com.jotasantos.app.diariooficial.database.repositories.IUsuarioRepository;
+import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
+import com.jotasantos.app.diariooficial.web.dtos.cliente.ClienteCreateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class UsuarioService implements IServiceBase<Usuario, Long> {
+public class UsuarioServiceImpl implements IUsuarioService {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     public List<Usuario> findAll() {
@@ -41,13 +52,12 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
     }
 
     @Override
-    @Transactional
     public Usuario save(Usuario usuario) {
+        usuario.setPassword(passwordEncoder().encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
 
     @Override
-    @Transactional
     public Usuario update(Usuario usuario, Long id) throws EntityNotFoundException {
         if (this.existsById(id)) {
             usuario.setId(id);
@@ -57,7 +67,6 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Usuario usuario) throws EntityNotFoundException {
         if (usuarioRepository.existsById(usuario.getId())) {
             usuarioRepository.delete(usuario);
@@ -71,19 +80,29 @@ public class UsuarioService implements IServiceBase<Usuario, Long> {
         return usuarioRepository.existsById(id);
     }
 
-    @Transactional
+    @Override
     public void inativarUsuario(Long id) {
         Usuario usuario = findOrFail(id);
         usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
-
         usuarioRepository.save(usuario);
     }
 
-    @Transactional
+    @Override
     public void ativarUsuario(Long id) {
         Usuario usuario = findOrFail(id);
         usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
         usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public Usuario findByEmail(String email) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
+
+        if (optionalUsuario.isPresent()) {
+            return optionalUsuario.get();
+        }
+
+        return null;
     }
 
 }
