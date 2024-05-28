@@ -3,7 +3,7 @@ package com.jotasantos.app.diariooficial.web.controllers;
 import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
