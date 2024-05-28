@@ -1,8 +1,7 @@
-package com.jotasantos.app.diariooficial.web.dtos.orgao_governamentals;
+package com.jotasantos.app.diariooficial.web.dtos.implementations.orgao_governamentals;
 
 import com.jotasantos.app.diariooficial.entities.Endereco;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
-import com.jotasantos.app.diariooficial.enums.EnumTipoOrgaoGov;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 

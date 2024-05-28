@@ -1,9 +1,8 @@
-package com.jotasantos.app.diariooficial.web.dtos.usuario;
+package com.jotasantos.app.diariooficial.web.dtos.implementations.usuario;
 
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
-import com.jotasantos.app.diariooficial.services.implementation.RoleServiceImpl;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
