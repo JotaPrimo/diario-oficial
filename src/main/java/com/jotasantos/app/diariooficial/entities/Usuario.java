@@ -17,6 +17,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cliente cliente;
 
@@ -28,9 +31,7 @@ public class Usuario {
     @Size(min = 5, max = 250, message = "Senha deve ter entre {min} e {max} caracteres")
     private String password;
 
-    @Column(unique = true)
-    @NotBlank(message = "Email é um campo obrigatório")
-    @Size(min = 5, max = 250, message = "Email deve ter entre {min} e {max} caracteres")
+    @Column(unique = true, nullable = false)
     private String email;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -121,6 +122,14 @@ public class Usuario {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isAtivo() {

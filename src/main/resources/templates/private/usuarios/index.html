@@ -38,7 +38,8 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Nome</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Cadastrado Em</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Role</th>
@@ -48,6 +49,7 @@
                             <tbody>
                             <tr th:each="u : ${usuarios}">
                                 <th scope="row" th:text="${u.id}"></th>
+                                <th scope="row" th:text="${u.username}"></th>
                                 <th scope="row" th:text="${u.email}"></th>
                                 <th scope="row" th:text="${u.getCreatedAtFormatado()}"></th>
                                 <th scope="row">
@@ -58,10 +60,14 @@
                                 <th scope="row" th:text="${u.getRole().getName()}"></th>
                                 <th scope="row">
                                     <a th:href="@{/diario-oficial/usuarios/{id}/show(id=${u.id})}"
-                                       class="btn btn-info btn-sm btn-wave waves-effect waves-light">Show</a>
+                                       class="btn btn-info btn-sm btn-wave waves-effect waves-light">
+                                        <i class="fe fe-eye" title="Visualizar usuário"></i>
+                                    </a>
 
-                                    <a th:href="@{/diario-oficial/usuarios/{id}/edit(id=${u.id})}"
-                                       class="btn btn-warning btn-sm btn-wave waves-effect waves-light">Editar</a>
+                                    <a th:href="@{/diario-oficial/usuarios/{id}/edit(id=${u.id})}" title="Editar usuário"
+                                       class="btn btn-warning btn-sm btn-wave waves-effect waves-light">
+                                        <icon class="fe fe-edit"></icon>
+                                    </a>
 
                                     <button th:if="${u.isAtivo()}" title="Inativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalInativar' + ${u.id}"
                                             class="btn btn-danger btn-sm btn-wave waves-effect waves-light">
@@ -70,7 +76,7 @@
 
                                     <button th:if="${u.isInativo()}" title="Ativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalAtivar' + ${u.id}"
                                             class="btn btn-success btn-sm btn-wave waves-effect waves-light">
-                                        <icon class="fe fe-trash"></icon>
+                                        <icon class="fe fe-check-circle"></icon>
                                     </button>
                                 </th>
 

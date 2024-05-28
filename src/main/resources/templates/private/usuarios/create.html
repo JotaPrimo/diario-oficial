@@ -13,6 +13,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username" th:field="*{username}" required minlength="10"
+                                       maxlength="255" class="form-control" placeholder="Username" aria-label="Username"/>
+                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" id="email" name="email" th:field="*{email}" required minlength="10"
                                        maxlength="255" class="form-control" placeholder="Email" aria-label="CPF"/>

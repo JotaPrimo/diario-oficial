@@ -5,13 +5,19 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-xl-12">
-            <form id="form_user" th:action="@{/diario-oficial/usuarios/{id}/update(id=${u.id})}" method="post" th:object="${usuario}" class="row g-3 mt-0">
+            <form id="form_user" th:action="@{/diario-oficial/usuarios/{id}/update(id=${usuario.id})}" method="post" th:object="${usuario}" class="row g-3 mt-0">
                 <div class="card custom-card">
                     <div class="card-header justify-content-between">
                         <div class="card-title">Usuários</div>
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username" th:field="*{username}" required minlength="10"
+                                       maxlength="255" class="form-control" placeholder="Username" aria-label="Username"/>
+                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></div>
+                            </div>
                             <div class="col">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" id="email" name="email" th:field="*{email}" required minlength="10"
@@ -20,7 +26,7 @@
                             </div>
                             <div class="col">
                                 <label for="role" class="form-label">Nível Acesso</label>
-                                <select id="role" name="role" class="form-control form-select select2" required>
+                                <select id="role" th:field="*{role}" name="role" class="form-control form-select select2" required>
                                     <option value="" selected disabled>Selecione</option>
                                     <option th:each="role : ${roles}"
                                             th:value="${role.id}"
@@ -41,7 +47,7 @@
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-sm btn-secondary">Salvar</button>
-                    <a th:href="@{/usuarios}" class="btn btn-sm btn-primary">
+                    <a th:href="@{/diario-oficial/usuarios}" class="btn btn-sm btn-primary">
                         <i class="fas fa-long-arrow-alt-left"></i>
                         Voltar
                     </a>

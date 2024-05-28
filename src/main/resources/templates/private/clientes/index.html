@@ -78,10 +78,12 @@
                             </th>
                             <th scope="row" th:text="${cliente.getCreatedAtFormatado()}" />
                             <th scope="row">
+
                                 <a th:href="@{/diario-oficial/clientes/{id}/show(id=${cliente.id})}" title="Ver cliente"
                                    class="btn btn-info btn-sm btn-wave waves-effect waves-light">
                                     <i class="fe fe-eye"></i>
                                 </a>
+
                                 <a th:href="@{/diario-oficial/clientes/{id}/edit(id=${cliente.id})}" title="Editar cliente"
                                    class="btn btn-warning btn-sm btn-wave waves-effect waves-light">
                                     <i class="fe fe-edit-2"></i>

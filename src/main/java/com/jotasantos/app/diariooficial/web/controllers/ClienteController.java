@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -79,4 +76,25 @@ public class ClienteController {
         }
     }
 
+    @PostMapping("/{id}/ativar")
+    public String ativarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.ativarUsuario(id);
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }catch (Exception exception) {
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }
+        return "redirect:/diario-oficial/usuarios";
+    }
+
+    @PostMapping("/{id}/inativar")
+    public String inativarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.inativarUsuario(id);
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuario inativo com sucesso");
+        }catch (Exception exception) {
+            redirectAttributes.addFlashAttribute("msgDanger", "Ocorreu um erro");
+        }
+        return "redirect:/diario-oficial/usuarios";
+    }
 }
