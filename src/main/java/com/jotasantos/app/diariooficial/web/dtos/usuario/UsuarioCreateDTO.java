@@ -9,6 +9,10 @@ import jakarta.validation.constraints.Size;
 
 public record UsuarioCreateDTO(
 
+        @NotBlank(message = "Username é um campo obrigatório")
+        @Size(min = 5, max = 250, message = "Username deve ter entre {min} e {max} caracteres")
+        String username,
+
         @NotBlank(message = "Email é um campo obrigatório")
         @Size(min = 5, max = 250, message = "Email deve ter entre {min} e {max} caracteres")
         String email,
@@ -22,6 +26,7 @@ public record UsuarioCreateDTO(
 ) {
     public static Usuario toEntity(UsuarioCreateDTO usuarioCreateDTO, Role role1) {
         Usuario usuario = new Usuario();
+        usuario.setUsername(usuarioCreateDTO.username);
         usuario.setEmail(usuarioCreateDTO.email);
         usuario.setPassword(usuarioCreateDTO.password);
         usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
@@ -30,7 +35,7 @@ public record UsuarioCreateDTO(
     }
 
     public static UsuarioCreateDTO getNewInstance() {
-        return new UsuarioCreateDTO("", "", "");
+        return new UsuarioCreateDTO("", "", "", "");
     }
 
 }
