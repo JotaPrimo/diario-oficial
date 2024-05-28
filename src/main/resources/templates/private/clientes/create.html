@@ -20,6 +20,13 @@
                                      class="invalid-feedback"></div>
                             </div>
                             <div class="col">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" required minlength="5" maxlength="255" id="username" th:field="*{username}"
+                                       name="username" class="form-control" placeholder="Username" aria-label="Username"/>
+                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                     class="invalid-feedback"></div>
+                            </div>
+                            <div class="col">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" id="email" name="email" th:field="*{email}" required minlength="10"
                                        maxlength="255" class="form-control" placeholder="Email" aria-label="CPF"/>
@@ -37,7 +44,7 @@
                                 <div th:if="${#fields.hasErrors('id_orgao_gov')}" th:errors="*{id_orgao_gov}" class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-5">
                             <div class="col">
                                 <label for="role" class="form-label">Nível Acesso</label>
                                 <select id="role" name="role" class="form-control form-select select2" required>

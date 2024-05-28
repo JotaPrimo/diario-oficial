@@ -8,28 +8,27 @@
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Dados de <span th:text="${usuario.nome}"></span>
+                        Dados de <span th:text="${usuario.username}"></span>
                     </div>
                 </div>
                 <div class="card-body">
                     <form id="form_user" method="post" th:object="${usuario}" class="row g-3 mt-0">
-
                         <div class="col-md-4 col-sm-12">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" disabled required id="name" th:field="*{nome}"
-                                   name="name" class="form-control" placeholder="Nome" aria-label="Nome"/>
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" disabled required id="username" th:field="*{username}" name="username"
+                                    class="form-control" placeholder="Username" aria-label="Username"/>
                         </div>
 
                         <div class="col-md-4 col-sm-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" id="email" disabled name="email" th:field="*{email}" class="form-control" placeholder="Email" aria-label="CPF"/>
+                            <input type="text" id="email" disabled name="email" th:field="*{email}" class="form-control"
+                                   placeholder="Email" aria-label="CPF"/>
                         </div>
 
                         <div class="col-md-4 col-sm-12">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" th:field="*{password}" required class="form-control"
-                                   id="password" autocomplete="off"/>
-                            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                            <label for="role" class="form-label">Password</label>
+                            <input type="text" disabled name="role" th:field="*{role.name}" required
+                                   class="form-control"  id="role" autocomplete="off"/>
                         </div>
                     </form>
                 </div>
