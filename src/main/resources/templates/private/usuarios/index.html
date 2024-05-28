@@ -10,13 +10,41 @@
                     <div class="card-title">Buscar Usuários</div>
                 </div>
                 <div class="card-body">
-                    <form id="form_usuario" action="/usuarios/store" method="post" th:object="${usuario}" class="row g-3 mt-0">
-
-                        <div class="col-md-6 col-sm-12">
+                    <form id="form_usuario" action="/usuarios/store" method="post" th:object="${usuarioSearchDTO}" class="row g-3 mt-0">
+                        <div class="col-md-1 col-sm-12">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="number" id="id" name="id" th:field="*{id}" required minlength="14"
+                                   maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" id="nome" name="email" th:field="*{nome}" required minlength="5"
+                                   maxlength="50" class="form-control" placeholder="Nome" aria-label="Nome"/>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" id="email" name="email" th:field="*{email}" required minlength="14"
                                    maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
-                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-control form-select" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option th:each="st : ${status}"
+                                        th:value="${st.name()}"
+                                        th:text="${st.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="role" class="form-label">Nível Acesso</label>
+                            <select id="role" name="role" class="form-control form-select select2" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option th:each="role : ${roles}"
+                                        th:value="${role.id}"
+                                        th:text="${role.name}">
+                                </option>
+                            </select>
                         </div>
 
                         <div class="col-12">
@@ -86,13 +114,12 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h6 class="modal-title" th:id="'modalInativarLabel' + ${u.id}">Modal title</h6>
+                                                <h6 class="modal-title" th:id="'modalInativarLabel' + ${u.id}">Atenção</h6>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                Inativar o usuario
-                                                <p th:text="${u.email}"></p> ?
+                                               <p th:text="'Inativar o usuario ' + ${u.username} + ' ?'"></p>
                                             </div>
                                             <div class="modal-footer">
                                                 <form id="form_user" th:action="@{/diario-oficial/usuarios/{id}/inativar(id=${u.id})}" method="post" class="row g-3 mt-0">
@@ -111,13 +138,13 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h6 class="modal-title" th:id="'modalAtivarLabel' + ${u.id}">Modal title</h6>
+                                                <h6 class="modal-title" th:id="'modalAtivarLabel' + ${u.id}">Atenção</h6>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 Ativar o usuario
-                                                <p th:text="${u.email}"></p> ?
+                                                <p th:text="${u.username}"></p> ?
                                             </div>
                                             <div class="modal-footer">
                                                 <form id="form_user_status" th:action="@{/diario-oficial/usuarios/{id}/ativar(id=${u.id})}" method="POST" class="row g-3 mt-0">

@@ -67,16 +67,16 @@
                         </thead>
                         <tbody>
                         <tr th:each="cliente : ${clientes}">
-                            <th scope="row" th:text="${cliente.id}" />
-                            <th scope="row" th:text="${cliente.nome}" />
-                            <th scope="row" th:text="${cliente.usuario.email}" />
-                            <th scope="row" th:text="${cliente.usuario.getRole().getName()}" />
+                            <th scope="row" th:text="${cliente.id}"/>
+                            <th scope="row" th:text="${cliente.nome}"/>
+                            <th scope="row" th:text="${cliente.usuario.email}"/>
+                            <th scope="row" th:text="${cliente.usuario.getRole().getName()}"/>
                             <th scope="row">
                                     <span th:class="${cliente.usuario.ativo ? 'badge bg-success' : 'badge bg-danger' }"
                                           th:text="${cliente.usuario.ativo ? 'ATIVO' : 'INATIVO'}">
                                     </span>
                             </th>
-                            <th scope="row" th:text="${cliente.getCreatedAtFormatado()}" />
+                            <th scope="row" th:text="${cliente.getCreatedAtFormatado()}"/>
                             <th scope="row">
 
                                 <a th:href="@{/diario-oficial/clientes/{id}/show(id=${cliente.id})}" title="Ver cliente"
@@ -84,15 +84,72 @@
                                     <i class="fe fe-eye"></i>
                                 </a>
 
-                                <a th:href="@{/diario-oficial/clientes/{id}/edit(id=${cliente.id})}" title="Editar cliente"
+                                <a th:href="@{/diario-oficial/clientes/{id}/edit(id=${cliente.id})}"
+                                   title="Editar cliente"
                                    class="btn btn-warning btn-sm btn-wave waves-effect waves-light">
                                     <i class="fe fe-edit-2"></i>
                                 </a>
 
-                                <button class="btn btn-danger btn-sm btn-wave waves-effect waves-light" title="Deletar cliente">
-                                    <i class="fe fe-trash"></i>
+                                <button th:if="${cliente.usuario.isAtivo()}" title="Inativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalInativar' + ${cliente.usuario.id}"
+                                        class="btn btn-danger btn-sm btn-wave waves-effect waves-light">
+                                    <icon class="fe fe-trash"></icon>
+                                </button>
+
+                                <button th:if="${cliente.usuario.isInativo()}" title="Ativar usuário" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalAtivar' + ${cliente.usuario.id}"
+                                        class="btn btn-success btn-sm btn-wave waves-effect waves-light">
+                                    <icon class="fe fe-check-circle"></icon>
                                 </button>
                             </th>
+
+                            <!--  MODAL INATIVAR USUARIO-->
+                            <div th:if="${cliente.usuario.isAtivo()}" class="modal fade" th:id="'modalInativar' + ${cliente.usuario.id}" tabindex="-1"
+                                 aria-labelledby="'modalInativarLabel' + ${cliente.usuario.id}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" th:id="'modalInativarLabel' + ${cliente.usuario.id}">Atenção</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p th:text="'Inativar o usuario ' + ${cliente.usuario.username} + ' do cliente ' + ${cliente.usuario.username} + ' ?'"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form id="form_user" th:action="@{/diario-oficial/usuarios/{id}/inativar(id=${cliente.usuario.id})}" method="post" class="row g-3 mt-0">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Inativar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  MODAL INATIVAR USUARIO-->
+
+                            <!--  MODAL ATIVAR USUARIO-->
+                            <div th:if="${cliente.usuario.isInativo()}" class="modal fade" th:id="'modalAtivar' + ${cliente.usuario.id}" tabindex="-1"
+                                 aria-labelledby="'modalAtivarLabel' + ${cliente.usuario.id}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" th:id="'modalAtivarLabel' + ${cliente.usuario.id}">Atenção</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p th:text="${cliente.usuario.username}"></p>
+                                            <p th:text="'Ativar o usuario ' + ${cliente.usuario.username} + ' do cliente ' + ${cliente.usuario.username} + ' ?'"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form id="form_user_status" th:action="@{/diario-oficial/usuarios/{id}/ativar(id=${cliente.usuario.id})}" method="POST" class="row g-3 mt-0">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Ativar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  MODAL ATIVAR USUARIO-->
+
                         </tr>
                         </tbody>
                     </table>
