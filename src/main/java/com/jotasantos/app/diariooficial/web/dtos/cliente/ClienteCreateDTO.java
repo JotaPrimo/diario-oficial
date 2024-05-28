@@ -14,6 +14,10 @@ public record ClienteCreateDTO(
         @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres")
         String nome,
 
+        @NotBlank(message = "Username é um campo obrigatório")
+        @Size(min = 5, max = 250, message = "Username deve ter entre {min} e {max} caracteres")
+        String username,
+
         @NotBlank(message = "Email é um campo obrigatório")
         @Size(min = 5, max = 250, message = "Email deve ter entre {min} e {max} caracteres")
         String email,
@@ -30,6 +34,7 @@ public record ClienteCreateDTO(
 ) {
     public static Cliente toEntity(ClienteCreateDTO clienteCreateDTO, Role role, OrgaoGovernamental orgaoGovernamental) {
         Usuario usuario1 = new Usuario();
+        usuario1.setUsername(clienteCreateDTO.username);
         usuario1.setEmail(clienteCreateDTO.email);
         usuario1.setPassword(clienteCreateDTO.password);
         usuario1.setRole(role);
@@ -41,7 +46,7 @@ public record ClienteCreateDTO(
     }
 
     public static ClienteCreateDTO getNewInstance() {
-        return new ClienteCreateDTO("", "", "", "", "");
+        return new ClienteCreateDTO("", "", "", "", "", "");
     }
 
 }
