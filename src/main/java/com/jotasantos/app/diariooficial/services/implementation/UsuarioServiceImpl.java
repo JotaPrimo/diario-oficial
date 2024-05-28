@@ -5,6 +5,7 @@ import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -75,6 +77,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    public List<Usuario> search(UsuarioSearchDTO searchDto) {
+        if (searchDto.isEmpty()) {
+            return usuarioRepository.findAllOrderById();
+        }
+
+        return usuarioRepository.findAll().stream()
+                .filter(user -> (searchDto.id() == null || user.getId().equals(searchDto.id())) &&
+                        (searchDto.nome() == null || user.getCliente().getNome().contains(searchDto.nome())) &&
+                        (searchDto.email() == null || user.getEmail().contains(searchDto.email())) &&
+                        (searchDto.status() == null || user.getStatusUsuario().name().equalsIgnoreCase(searchDto.status())) &&
+                        (searchDto.role() == null || user.getRole().getName().equalsIgnoreCase(searchDto.role())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void inativarUsuario(Long id) {
         Usuario usuario = findOrFail(id);
         usuario.setStatusUsuario(EnumStatusUsuario.INATIVO);
@@ -97,6 +114,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<EnumStatusUsuario> returnAllStatusUsuario() {
+        return EnumStatusUsuario.getAllEnumStatus();
     }
 
 }
