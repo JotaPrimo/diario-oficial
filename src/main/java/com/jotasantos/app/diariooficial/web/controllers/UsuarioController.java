@@ -6,7 +6,9 @@ import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
+import com.jotasantos.app.diariooficial.web.controllers.interfaces.BaseController;
 import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioUpdateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(ApiPath.USUARIOS)
-public class UsuarioController {
+public class UsuarioController extends BaseController {
 
     @Qualifier("usuarioServiceImpl")
     @Autowired
@@ -73,6 +75,7 @@ public class UsuarioController {
     public String edit(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             model.addAttribute("usuario", usuarioService.findOrFail(id));
+            model.addAttribute("roles", roleService.findAll());
             return "private/usuarios/edit";
         }catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("msgDanger", e.getMessage());
@@ -81,14 +84,16 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}/update")
-    public String update(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String update(@ModelAttribute("usuarioCreateDTO") @Valid UsuarioUpdateDTO usuarioUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
-            model.addAttribute("usuario", usuarioService.findOrFail(id));
-            usuarioService.save(usuarioService.findOrFail(id));
-            return "usuarios/edit/" + id;
+            Role role1 = roleService.findById(Long.parseLong(usuarioUpdateDTO.role()));
+            Usuario usuarioToUpdate = UsuarioUpdateDTO.toEntity(usuarioUpdateDTO, role1);
+            usuarioService.update(usuarioToUpdate, id);
+            redirectAttributes.addFlashAttribute("msgSuccess", "Usuário criado com sucesso ");
+            return "redirect:/diario-oficial/usuarios";
         }catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("msgDanger", e.getMessage());
-            return "redirect:/" . concat(ApiPath.USUARIOS);
+            return "redirect:/diario-oficial/usuarios/" + id + "/edit";
         }
     }
 
