@@ -1,7 +1,6 @@
 package com.jotasantos.app.diariooficial.services.implementation;
-
 import com.jotasantos.app.diariooficial.entities.Arquivo;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IArquivoService;
 import org.springframework.stereotype.Service;
 

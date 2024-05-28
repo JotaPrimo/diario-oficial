@@ -1,7 +1,6 @@
 package com.jotasantos.app.diariooficial.services.interfaces;
 
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 
 import java.util.List;
 

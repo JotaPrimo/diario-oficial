@@ -2,7 +2,7 @@ package com.jotasantos.app.diariooficial.services.implementation;
 
 import com.jotasantos.app.diariooficial.database.repositories.IRoleRepository;
 import com.jotasantos.app.diariooficial.entities.Role;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
