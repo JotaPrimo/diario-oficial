@@ -1,4 +1,4 @@
-package com.jotasantos.app.diariooficial.exceptions;
+package com.jotasantos.app.diariooficial.exceptions.handler;
 
 public class EntityNotFoundException extends RuntimeException {
 

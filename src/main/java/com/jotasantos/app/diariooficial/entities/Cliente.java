@@ -98,11 +98,11 @@ public class Cliente {
         return DataUtil.retornaDataFormatadaDMY(getCreatedAt());
     }
 
-    public @NotBlank(message = "Nome é um campo obrigatório") @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres") String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(@NotBlank(message = "Nome é um campo obrigatório") @Size(min = 5, max = 250, message = "Nome deve ter entre {min} e {max} caracteres") String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 

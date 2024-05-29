@@ -1,10 +1,9 @@
-package com.jotasantos.app.diariooficial.web.dtos.cliente;
+package com.jotasantos.app.diariooficial.web.dtos.implementations.cliente;
 
 import com.jotasantos.app.diariooficial.entities.Cliente;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
-import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -42,6 +41,7 @@ public record ClienteCreateDTO(
         Cliente cliente = new Cliente();
         cliente.setUsuario(usuario1);
         cliente.setNome(clienteCreateDTO.nome());
+        cliente.setOrgaoGovernamental(orgaoGovernamental);
         return cliente;
     }
 

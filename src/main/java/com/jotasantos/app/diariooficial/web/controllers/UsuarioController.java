@@ -3,12 +3,13 @@ package com.jotasantos.app.diariooficial.web.controllers;
 import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import com.jotasantos.app.diariooficial.web.controllers.interfaces.BaseController;
-import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioCreateDTO;
-import com.jotasantos.app.diariooficial.web.dtos.usuario.UsuarioUpdateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioSearchDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioCreateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioUpdateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,9 +32,12 @@ public class UsuarioController extends BaseController {
     private IRoleService roleService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, UsuarioSearchDTO usuarioSearchDTO) {
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuarios", usuarioService.findAllSortedById());
+        model.addAttribute("usuarioSearchDTO", UsuarioSearchDTO.getNewEmptyInstance());
+        model.addAttribute("usuarios", usuarioService.search(usuarioSearchDTO));
+        model.addAttribute("roles", roleService.findAllSortedById());
+        model.addAttribute("status", usuarioService.returnAllStatusUsuario());
         return "private/usuarios/index";
     }
 

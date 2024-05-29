@@ -1,9 +1,9 @@
 package com.jotasantos.app.diariooficial.services.implementation;
 
+import com.jotasantos.app.diariooficial.database.repositories.IClienteRepository;
 import com.jotasantos.app.diariooficial.entities.Cliente;
 import com.jotasantos.app.diariooficial.entities.Usuario;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import com.jotasantos.app.diariooficial.database.repositories.IClienteRepository;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IClienteService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

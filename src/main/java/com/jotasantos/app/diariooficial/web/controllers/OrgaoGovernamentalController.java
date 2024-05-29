@@ -2,12 +2,10 @@ package com.jotasantos.app.diariooficial.web.controllers;
 
 import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
-import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IOrgaoGovernamentalService;
-import com.jotasantos.app.diariooficial.web.dtos.cliente.ClienteCreateDTO;
-import com.jotasantos.app.diariooficial.web.dtos.orgao_governamentals.OrgaoCreateDTO;
-import com.jotasantos.app.diariooficial.web.dtos.orgao_governamentals.OrgaoSearchDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.orgao_governamentals.OrgaoCreateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.orgao_governamentals.OrgaoSearchDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package com.jotasantos.app.diariooficial.services.interfaces;
 
-import com.jotasantos.app.diariooficial.exceptions.EntityNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
+import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
+import com.jotasantos.app.diariooficial.web.dtos.interfaces.IRecordSearch;
 
 import java.util.List;
 
@@ -22,5 +22,4 @@ public interface IServiceBase<E, Long> {
     void delete(E entity) throws EntityNotFoundException;
 
     boolean existsById(Long id);
-
 }

@@ -1,4 +1,4 @@
-package com.jotasantos.app.diariooficial.web.dtos.cliente;
+package com.jotasantos.app.diariooficial.web.dtos.implementations.cliente;
 
 import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;

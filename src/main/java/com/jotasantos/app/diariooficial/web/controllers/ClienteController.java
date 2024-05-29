@@ -3,13 +3,12 @@ package com.jotasantos.app.diariooficial.web.controllers;
 import com.jotasantos.app.diariooficial.config.ApiPath;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
 import com.jotasantos.app.diariooficial.entities.Role;
-import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.services.interfaces.IClienteService;
 import com.jotasantos.app.diariooficial.services.interfaces.IOrgaoGovernamentalService;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
-import com.jotasantos.app.diariooficial.web.dtos.cliente.ClienteCreateDTO;
+import com.jotasantos.app.diariooficial.web.dtos.implementations.cliente.ClienteCreateDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,6 +50,17 @@ public class ClienteController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("orgaos_gov", orgaoGovernamentalService.findAll());
         return "private/clientes/create";
+    }
+
+    @GetMapping("/{id}/show")
+    public String show(@PathVariable Long id, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            model.addAttribute("cliente", clienteService.findOrFail(id));
+            return "private/clientes/show";
+        }catch (Exception exception) {
+            redirectAttributes.addFlashAttribute("msgDanger", "Cliente não encontrado");
+            return "redirect:/diario-oficial/clientes/index";
+        }
     }
 
     @PostMapping("/store")
@@ -97,4 +107,6 @@ public class ClienteController {
         }
         return "redirect:/diario-oficial/usuarios";
     }
+
+
 }

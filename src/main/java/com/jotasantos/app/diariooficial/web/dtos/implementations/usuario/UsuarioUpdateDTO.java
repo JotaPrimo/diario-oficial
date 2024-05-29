@@ -1,4 +1,4 @@
-package com.jotasantos.app.diariooficial.web.dtos.usuario;
+package com.jotasantos.app.diariooficial.web.dtos.implementations.usuario;
 
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
