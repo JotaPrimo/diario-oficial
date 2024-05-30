@@ -10,46 +10,51 @@
                     <div class="card-title">Buscar Usuários</div>
                 </div>
                 <div class="card-body">
-                    <form id="form_usuario" action="/usuarios/store" method="post" th:object="${usuarioSearchDTO}" class="row g-3 mt-0">
+                    <form id="form_usuario" th:action="@{/diario-oficial/usuarios}" method="GET" th:object="${usuarioSearchDTO}" class="row g-3 mt-0">
                         <div class="col-md-1 col-sm-12">
                             <label for="id" class="form-label">ID</label>
-                            <input type="number" id="id" name="id" th:field="*{id}" required minlength="14"
-                                   maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
+                            <input type="number" id="id" name="id" th:field="*{id}" min="0"
+                                   max="1000000" class="form-control" placeholder="ID" aria-label="ID"/>
+                            <span th:if="${!utilValidators.integerIsNullOrZero(usuarioSearchDTO.id())}" class="badge bg-warning-transparent text-warning p-2 px-3">Filtro aplicado</span>
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" id="nome" name="email" th:field="*{nome}" required minlength="5"
+                            <input type="text" id="nome" name="nome" th:field="*{nome}" minlength="5"
                                    maxlength="50" class="form-control" placeholder="Nome" aria-label="Nome"/>
+                            <span th:if="${!utilValidators.stringIsNullOrEmpty(usuarioSearchDTO.nome())}" class="badge bg-warning-transparent text-warning p-2 px-3">Filtro aplicado</span>
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" id="email" name="email" th:field="*{email}" required minlength="14"
-                                   maxlength="14" class="form-control" placeholder="Email" aria-label="CPF"/>
+                            <input type="text" id="email" name="email" th:field="*{email}" minlength="5"
+                                   maxlength="50" class="form-control" placeholder="Email" aria-label="Email"/>
+                            <span th:if="${!utilValidators.stringIsNullOrEmpty(usuarioSearchDTO.email())}" class="badge bg-warning-transparent text-warning p-2 px-3">Filtro aplicado</span>
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <label for="status" class="form-label">Status</label>
-                            <select id="status" name="status" class="form-control form-select" required>
-                                <option value="" selected disabled>Selecione</option>
+                            <select id="status" th:field="*{status}" name="status" class="form-control form-select">
+                                <option value="" selected>Selecione</option>
                                 <option th:each="st : ${status}"
                                         th:value="${st.name()}"
                                         th:text="${st.name}">
                                 </option>
                             </select>
+                            <span th:if="${!utilValidators.stringIsNullOrEmpty(usuarioSearchDTO.status())}" class="badge bg-warning-transparent text-warning p-2 px-3">Filtro aplicado</span>
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <label for="role" class="form-label">Nível Acesso</label>
-                            <select id="role" name="role" class="form-control form-select select2" required>
-                                <option value="" selected disabled>Selecione</option>
+                            <select id="role" th:field="*{role}" name="role" class="form-control form-select select2">
+                                <option value="" selected>Selecione</option>
                                 <option th:each="role : ${roles}"
                                         th:value="${role.id}"
                                         th:text="${role.name}">
                                 </option>
                             </select>
+                            <span th:if="${!utilValidators.stringIsNullOrEmpty(usuarioSearchDTO.role())}" class="badge bg-warning-transparent text-warning p-2 px-3">Filtro aplicado</span>
                         </div>
-
                         <div class="col-12">
                             <button type="submit" class="btn btn-sm btn-secondary">Buscar</button>
                             <a th:href="@{/diario-oficial/usuarios/create}" class="btn btn-sm btn-primary">Novo</a>
+                            <a th:href="@{/diario-oficial/usuarios}" class="btn btn-sm btn-primary">Limpar Filtros</a>
                         </div>
                     </form>
                 </div>
@@ -66,6 +71,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Cadastrado Em</th>
@@ -77,6 +83,7 @@
                             <tbody>
                             <tr th:each="u : ${usuarios}">
                                 <th scope="row" th:text="${u.id}"></th>
+                                <th scope="row" th:text="${u.cliente != null ? u.cliente.nome : '-'}"></th>
                                 <th scope="row" th:text="${u.username}"></th>
                                 <th scope="row" th:text="${u.email}"></th>
                                 <th scope="row" th:text="${u.getCreatedAtFormatado()}"></th>

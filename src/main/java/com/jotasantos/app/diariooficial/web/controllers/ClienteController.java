@@ -47,7 +47,7 @@ public class ClienteController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("cliente_create_dto", ClienteCreateDTO.getNewInstance());
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", roleService.findRolesCliente());
         model.addAttribute("orgaos_gov", orgaoGovernamentalService.findAll());
         return "private/clientes/create";
     }
@@ -72,9 +72,8 @@ public class ClienteController {
                 return "redirect:/diario-oficial/clientes/create";
             }
 
-            OrgaoGovernamental orgaoGovernamental = orgaoGovernamentalService.findById(Long.parseLong(clienteCreateDTO.id_orgao_gov()));
-            Role role = roleService.findById(Long.parseLong(clienteCreateDTO.role()));
-
+            OrgaoGovernamental orgaoGovernamental = orgaoGovernamentalService.findOrFail(Long.parseLong(clienteCreateDTO.id_orgao_gov()));
+            Role role = roleService.findOrFail(Long.parseLong(clienteCreateDTO.role()));
             clienteService.createClienteUser(ClienteCreateDTO.toEntity(clienteCreateDTO, role, orgaoGovernamental));
 
             redirectAttributes.addFlashAttribute("msgSuccess", "Cliente criado com sucesso ");

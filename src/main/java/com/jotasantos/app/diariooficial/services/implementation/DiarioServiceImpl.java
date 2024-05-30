@@ -1,14 +1,19 @@
 package com.jotasantos.app.diariooficial.services.implementation;
 
+import com.jotasantos.app.diariooficial.database.repositories.IDiarioRepository;
 import com.jotasantos.app.diariooficial.entities.Diario;
 import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IDiarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DiarioServiceImpl implements IDiarioService {
+
+    @Autowired
+    private IDiarioRepository diarioRepository;
 
     @Override
     public List<Diario> findAll() {
@@ -48,5 +53,10 @@ public class DiarioServiceImpl implements IDiarioService {
     @Override
     public boolean existsById(Long id) {
         return false;
+    }
+
+    @Override
+    public List<Long> findAllIds() {
+        return diarioRepository.findAllIds();
     }
 }

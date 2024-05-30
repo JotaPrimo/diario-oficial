@@ -5,6 +5,7 @@ import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
+import com.jotasantos.app.diariooficial.utils.UtilsValidators;
 import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -77,17 +78,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    public List<Long> findAllIds() {
+        return usuarioRepository.findAllIds();
+    }
+
+    @Override
     public List<Usuario> search(UsuarioSearchDTO searchDto) {
         if (searchDto.isEmpty()) {
             return usuarioRepository.findAllOrderById();
         }
 
         return usuarioRepository.findAll().stream()
-                .filter(user -> (searchDto.id() == null || user.getId().equals(searchDto.id())) &&
-                        (searchDto.nome() == null || user.getCliente().getNome().contains(searchDto.nome())) &&
-                        (searchDto.email() == null || user.getEmail().contains(searchDto.email())) &&
-                        (searchDto.status() == null || user.getStatusUsuario().name().equalsIgnoreCase(searchDto.status())) &&
-                        (searchDto.role() == null || user.getRole().getName().equalsIgnoreCase(searchDto.role())))
+                .filter(user -> (UtilsValidators.longIsNullOrZero(searchDto.id()) || user.getId().equals(searchDto.id())) &&
+                        (UtilsValidators.stringIsNullOrEmpty(searchDto.nome()) || (user.getCliente() != null && user.getCliente().getNome().toLowerCase().contains(searchDto.nome().toLowerCase()))) &&
+                        (UtilsValidators.stringIsNullOrEmpty(searchDto.email()) || user.getEmail().toLowerCase().contains(searchDto.email().toLowerCase())) &&
+                        (UtilsValidators.stringIsNullOrEmpty(searchDto.status()) || user.getStatusUsuario().name().toLowerCase().equalsIgnoreCase(searchDto.status())) &&
+                        (UtilsValidators.stringIsNullOrEmpty(searchDto.role()) || user.getRole().getId().toString().equalsIgnoreCase(searchDto.role())))
                 .collect(Collectors.toList());
     }
 

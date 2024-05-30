@@ -74,6 +74,11 @@ public class OrgaoGovernamentalServiceImpl implements IOrgaoGovernamentalService
     }
 
     @Override
+    public List<Long> findAllIds() {
+        return orgaoGovernamentalRepository.findAllIds();
+    }
+
+    @Override
     public String definirNome(OrgaoCreateDTO orgaoCreateDTO) {
         String nome = "";
         if (EnumTipoOrgaoGov.PREFEITURA_MUNICIPAL.getDescricao().equalsIgnoreCase(orgaoCreateDTO.tipo_orgao_governamental())) {

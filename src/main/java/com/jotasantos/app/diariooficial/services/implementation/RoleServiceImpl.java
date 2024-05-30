@@ -7,6 +7,7 @@ import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,12 +63,21 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
+    public List<Long> findAllIds() {
+        return roleRepository.findAllIds();
+    }
+
+    @Override
     public List<Role> findRolesCliente() {
-        return List.of();
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(roleRepository.findAllById(Role.ROLES_FOR_CLIENTE));
+        return roles;
     }
 
     @Override
     public List<Role> findRolesAdmin() {
-        return List.of();
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(roleRepository.findAllById(Role.ROLES_FOR_ADMIN));
+        return roles;
     }
 }

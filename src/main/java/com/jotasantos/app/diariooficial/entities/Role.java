@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,9 @@ public class Role {
 	private static final int COLABORADOR = 2;
 	private static final int CLIENTE_ADMIN = 3;
 	private static final int CLIENTE_COLABORADOR = 4;
+
+    public static final Iterable<Long> ROLES_FOR_ADMIN =  Arrays.asList(1L, 2L);
+    public static final Iterable<Long> ROLES_FOR_CLIENTE = Arrays.asList(3L, 4L);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

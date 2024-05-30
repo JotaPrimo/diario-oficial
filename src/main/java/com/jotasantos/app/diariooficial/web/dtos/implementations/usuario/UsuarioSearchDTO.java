@@ -1,5 +1,6 @@
 package com.jotasantos.app.diariooficial.web.dtos.implementations.usuario;
 
+import com.jotasantos.app.diariooficial.utils.UtilsValidators;
 import com.jotasantos.app.diariooficial.web.dtos.interfaces.IRecordSearch;
 
 public record UsuarioSearchDTO(
@@ -12,10 +13,11 @@ public record UsuarioSearchDTO(
 
     @Override
     public boolean isEmpty() {
-        return (id == null) &&
-                (email == null || email.isBlank()) &&
-                (status == null || status.isBlank()) &&
-                (role == null || role.isBlank());
+        return (UtilsValidators.longIsNullOrZero(id)) &&
+                (UtilsValidators.stringIsNullOrEmpty(nome)) &&
+                (UtilsValidators.stringIsNullOrEmpty(email)) &&
+                (UtilsValidators.stringIsNullOrEmpty(status)) &&
+                (UtilsValidators.stringIsNullOrEmpty(role));
     }
 
     @Override
@@ -25,5 +27,12 @@ public record UsuarioSearchDTO(
 
     public static UsuarioSearchDTO getNewEmptyInstance() {
         return new UsuarioSearchDTO(null, "", "", "", "");
+    }
+
+    public static UsuarioSearchDTO resolveUsuarioSearchDTO(UsuarioSearchDTO usuarioSearchDTO) {
+        if (usuarioSearchDTO.isEmpty()) {
+            return getNewEmptyInstance();
+        }
+        return usuarioSearchDTO;
     }
 }

@@ -4,6 +4,7 @@ import com.jotasantos.app.diariooficial.entities.Cliente;
 import com.jotasantos.app.diariooficial.entities.OrgaoGovernamental;
 import com.jotasantos.app.diariooficial.entities.Role;
 import com.jotasantos.app.diariooficial.entities.Usuario;
+import com.jotasantos.app.diariooficial.enums.EnumStatusUsuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -37,6 +38,7 @@ public record ClienteCreateDTO(
         usuario1.setEmail(clienteCreateDTO.email);
         usuario1.setPassword(clienteCreateDTO.password);
         usuario1.setRole(role);
+        usuario1.setStatusUsuario(EnumStatusUsuario.INATIVO);
 
         Cliente cliente = new Cliente();
         cliente.setUsuario(usuario1);

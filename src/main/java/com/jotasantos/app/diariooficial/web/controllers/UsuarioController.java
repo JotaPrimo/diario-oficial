@@ -6,6 +6,7 @@ import com.jotasantos.app.diariooficial.entities.Usuario;
 import com.jotasantos.app.diariooficial.exceptions.handler.EntityNotFoundException;
 import com.jotasantos.app.diariooficial.services.interfaces.IRoleService;
 import com.jotasantos.app.diariooficial.services.interfaces.IUsuarioService;
+import com.jotasantos.app.diariooficial.utils.UtilsValidators;
 import com.jotasantos.app.diariooficial.web.controllers.interfaces.BaseController;
 import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioSearchDTO;
 import com.jotasantos.app.diariooficial.web.dtos.implementations.usuario.UsuarioCreateDTO;
@@ -33,10 +34,11 @@ public class UsuarioController extends BaseController {
 
     @GetMapping
     public String index(Model model, UsuarioSearchDTO usuarioSearchDTO) {
+        model.addAttribute("utilValidators", new UtilsValidators());
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuarioSearchDTO", UsuarioSearchDTO.getNewEmptyInstance());
+        model.addAttribute("usuarioSearchDTO", UsuarioSearchDTO.resolveUsuarioSearchDTO(usuarioSearchDTO));
         model.addAttribute("usuarios", usuarioService.search(usuarioSearchDTO));
-        model.addAttribute("roles", roleService.findAllSortedById());
+        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("status", usuarioService.returnAllStatusUsuario());
         return "private/usuarios/index";
     }

@@ -75,6 +75,11 @@ public class ClienteServiceImpl implements IClienteService {
         return clienteRepository.existsById(id);
     }
 
+    @Override
+    public List<Long> findAllIds() {
+        return clienteRepository.findAllIds();
+    }
+
     @Transactional
     public Cliente createClienteUser(Cliente cliente) {
         try {
